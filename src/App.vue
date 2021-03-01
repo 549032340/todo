@@ -25,7 +25,7 @@
         </li>
       </ul>
     </section>
-    <section>
+    <section class="footer">
       <label>
         <input type="checkbox" />
         已完成1/全部3
@@ -53,6 +53,11 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+    &:focus {
+      outline: 0;
+      border: 1px solid transparent;
+      box-shadow: 0px 0px 8px 0px #1a71cc;
+    }
   }
 }
 .todo {
@@ -63,8 +68,8 @@
 }
 .todo-item {
   padding: 5px;
-  height: 28px;
-  line-height: 28px;
+  height: 30px;
+  line-height: 30px;
   border-bottom: 1px solid #ccc;
   &:last-child {
     border-bottom: 0;
@@ -72,6 +77,14 @@
   span {
     padding-left: 5px;
   }
+  button {
+    float: right;
+    margin-top: 3px;
+  }
+}
+.footer {
+  margin: 20px 0 5px 0;
+  text-align: left;
   button {
     float: right;
   }
