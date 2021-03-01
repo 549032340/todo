@@ -1,30 +1,79 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="main">
+    <section class="header">
+      <input type="text" />
+    </section>
+    <section>
+      <ul class="todo">
+        <li class="todo-item">
+          <label>
+            <input type="checkbox" /><span>奔驰</span>
+            <button class="todo-button">删除</button>
+          </label>
+        </li>
+        <li class="todo-item">
+          <label>
+            <input type="checkbox" /><span>宝马</span>
+            <button class="todo-button">删除</button>
+          </label>
+        </li>
+        <li class="todo-item">
+          <label>
+            <input type="checkbox" /><span>奥迪</span>
+            <button class="todo-button">删除</button>
+          </label>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <label>
+        <input type="checkbox" />
+        已完成1/全部3
+      </label>
+      <button class="todo-button ">清除已完成任务</button>
+    </section>
   </div>
-  <router-view />
 </template>
 
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.main {
+  width: 50%;
+  margin: auto;
   text-align: center;
-  color: #2c3e50;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-top: 30px;
+  border-radius: 5px;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+.header {
+  input {
+    width: 100%;
+    font-size: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+}
+.todo {
+  margin-top: 15px;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.todo-item {
+  padding: 5px;
+  height: 28px;
+  line-height: 28px;
+  border-bottom: 1px solid #ccc;
+  &:last-child {
+    border-bottom: 0;
+  }
+  span {
+    padding-left: 5px;
+  }
+  button {
+    float: right;
   }
 }
 </style>
