@@ -1,40 +1,85 @@
 <template>
   <div class="main">
-    <section class="header">
-      <input type="text" />
-    </section>
-    <section>
-      <ul class="todo">
-        <li class="todo-item">
-          <label>
-            <input type="checkbox" /><span>奔驰</span>
-            <button class="todo-button">删除</button>
-          </label>
-        </li>
-        <li class="todo-item">
-          <label>
-            <input type="checkbox" /><span>宝马</span>
-            <button class="todo-button">删除</button>
-          </label>
-        </li>
-        <li class="todo-item">
-          <label>
-            <input type="checkbox" /><span>奥迪</span>
-            <button class="todo-button">删除</button>
-          </label>
-        </li>
-      </ul>
-    </section>
-    <section class="footer">
-      <label>
-        <input type="checkbox" />
-        已完成1/全部3
-      </label>
-      <button class="todo-button ">清除已完成任务</button>
-    </section>
+    <Header :addTodo="addTodo" />
+    <List
+      :change="changeStatus"
+      :todoLists="todoLists"
+      :deleteTodo="deleteTodo"
+    />
+    <Footer :todoLists="todoLists" :operateAll="operateAll" :clear="clear" />
   </div>
 </template>
-
+<script lang="ts">
+import { defineComponent, reactive, toRefs } from "vue";
+import Header from "./views/header.vue";
+import List from "./views/todo.vue";
+import Footer from "./views/footer.vue";
+import { Todo } from "./types/todo";
+export default defineComponent({
+  name: "App",
+  components: {
+    Header,
+    List,
+    Footer
+  },
+  setup() {
+    // 用泛型来约束todoLists reactive<ITodo []>
+    // state是一个对象，所以用对象的方式来约束 reactive<{todoLists: ITodo []}>
+    const state = reactive<{ todoLists: Todo[] }>({
+      todoLists: [
+        {
+          id: 1,
+          title: "吃饭",
+          isCompleted: true
+        },
+        {
+          id: 2,
+          title: "睡觉",
+          isCompleted: false
+        },
+        {
+          id: 3,
+          title: "打豆豆",
+          isCompleted: false
+        }
+      ]
+    });
+    // 修改
+    const changeStatus = (val: boolean, todo: Todo) => {
+      todo.isCompleted = val;
+    };
+    // 新增
+    const addTodo = (todo: Todo) => {
+      state.todoLists.unshift(todo);
+    };
+    // 删除
+    const deleteTodo = id => {
+      const index = state.todoLists.findIndex(todo => todo.id === id);
+      state.todoLists.splice(index, 1);
+    };
+    // 清除已完成todo
+    const clear = () => {
+      state.todoLists = state.todoLists.filter(
+        todo => todo.isCompleted === false
+      );
+    };
+    // 处理全部数据
+    const operateAll = (val: boolean) => {
+      state.todoLists.forEach(todo => {
+        todo.isCompleted = val;
+      });
+    };
+    return {
+      ...toRefs(state),
+      changeStatus,
+      addTodo,
+      deleteTodo,
+      clear,
+      operateAll
+    };
+  }
+});
+</script>
 <style lang="less">
 .main {
   width: 50%;
@@ -44,49 +89,5 @@
   padding: 15px;
   margin-top: 30px;
   border-radius: 5px;
-}
-.header {
-  input {
-    width: 100%;
-    font-size: 20px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    &:focus {
-      outline: 0;
-      border: 1px solid transparent;
-      box-shadow: 0px 0px 8px 0px #1a71cc;
-    }
-  }
-}
-.todo {
-  margin-top: 15px;
-  text-align: left;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-.todo-item {
-  padding: 5px;
-  height: 30px;
-  line-height: 30px;
-  border-bottom: 1px solid #ccc;
-  &:last-child {
-    border-bottom: 0;
-  }
-  span {
-    padding-left: 5px;
-  }
-  button {
-    float: right;
-    margin-top: 3px;
-  }
-}
-.footer {
-  margin: 20px 0 5px 0;
-  text-align: left;
-  button {
-    float: right;
-  }
 }
 </style>
